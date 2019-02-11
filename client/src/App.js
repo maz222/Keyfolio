@@ -14,14 +14,6 @@ class App extends Component {
   }
   render() {
       return (
-        <Home />
-      );
-    }
-} 
-
-class Home extends Component {
-  render() {
-    return(
       <div className="App">
         <div id="banner">
             <h1>KeyFolio</h1>
@@ -29,8 +21,8 @@ class Home extends Component {
         <div id="content">
         </div>
       </div>
-    );
-  }
-}
+      );
+    }
+} 
 
 export default App;
