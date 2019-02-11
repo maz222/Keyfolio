@@ -1,0 +1,99 @@
+.listCard:hover, .gridCard:hover {
+	cursor: zoom-in;
+}
+
+.listCard {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	background-color: white;
+	margin-bottom: 10px;
+	width: calc(100% - 20px);
+	border-radius: 5px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.listCard h1 {
+	font-size: 1.5em;
+	margin: 0;
+	color: rgb(80,80,80);
+	text-align: left;
+}
+
+.listCard .cardTitle {
+	width: 30%;
+}
+
+.listCard .cardHouse {
+	width: calc(70% / 3);
+}
+
+.listCard .cardType {
+	width: calc(70% / 3);
+}
+
+.listCard .cardRarity {
+	width: calc(70% / 3);
+}
+
+.cardTitle {
+	color: black !important;
+}
+
+.gridCard {
+	margin: 20px 0 20px 0;
+	width: calc(100%/3);
+	height: 300px;
+}
+
+.imgContainer {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.gridCard img {
+	max-width: 100%;
+	height: 100%;
+}
+
+.detailCard {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.detailListing {
+	background-color: #5E5F68;
+	padding: 40px 40px 30px 40px;
+	border-radius: 10px;
+	height: 45%;
+	min-width: 25%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-around;
+}
+
+.detail {
+	text-align: left;
+}
+
+.detail * {
+	display: inline;
+	font-size: 1.25em;
+}
+
+.property {
+	font-weight: bold;
+	color: white;
+	margin-right: .5em;
+}
+
+.value {
+	color: rgb(20,20,20);
+}
