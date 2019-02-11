@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
-app.use(express.static(path.join(__dirname, 'build')));
 
 const dbManager = require('database-manager');
 const USER = "maz2";
