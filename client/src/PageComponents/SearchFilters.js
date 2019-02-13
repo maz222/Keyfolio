@@ -43,7 +43,7 @@ class SearchFilters extends Component {
 		e.preventDefault();
 		const data = new FormData(e.target);
 		const parsedData = parseForm(data);
-		const url = '/searchCards' + jsonToQueryString(parsedData);
+		const url = '/API/searchCards' + jsonToQueryString(parsedData);
 		console.log(url);
 		fetch(url)
 			.then(res => res.json())

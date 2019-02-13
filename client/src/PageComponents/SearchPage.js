@@ -23,7 +23,7 @@ class SearchPage extends Component {
 			.then((cards) => {
 				this.setState({results:cards.cardList});
 				});
-		fetch('/SearchFilters')
+		fetch('/searchFilters')
 			.then(res => res.json())
 			.then(filters => {
 				this.setState({houses:filters.houses, rarities:filters.rarities, types:filters.types});

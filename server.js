@@ -56,13 +56,18 @@ app.get('/updateDBRange', function(req, res, next) {
 	res.render('index', {title:'Express'});
 });
 
+//API Endpoint
+	//Returns a list of *all* the cards stored in the database
 app.get('/API/cards', function(req, res, next) {
 	manager.getCards().then((cards) => {
 		res.send({cardList:cards});
 	});
 });
 
-app.get('/glossary', function(req,res,next) {
+//API Endpoint
+	//Returns a list of game terms based on a given category
+	//*Input* : one of ["houses","traits","types","rarities"]
+app.get('/API/glossary', function(req,res,next) {
 	var category = req.query.category;
 	category = category.substring(1,category.length-1);
 	manager.getGlossaryByCategory(category).then((terms) => {
@@ -71,7 +76,15 @@ app.get('/glossary', function(req,res,next) {
 	});
 });
 
-app.get('/searchCards', function(req,res,next) {
+//API Endpoint
+	//Searches the database for a set of parameters and returns a matching list of cards
+	//*Input* : any of
+		//Title   : a string representing the title of the card (or a portion of it)
+		//Houses  : an array of strings representing house names
+		//Rarities: an array of strings representing card rarities
+		//Types   : an array of strings representing card types
+	//If any of the above inputs are not defined (not passed), search assumes any of the possible values (from the glossary) are valid
+app.get('/API/searchCards', function(req,res,next) {
 	console.log(req.query);
 	var title = req.query.Title;
 	var houses = req.query.Houses == undefined ? [] : req.query.Houses.split(',');
