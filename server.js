@@ -8,59 +8,19 @@ const USER = "maz2";
 const PASS = "keysmith1";
 const manager = new dbManager(USER, PASS);
 
-// -------------------------
-
-//dataWrapper - {decks:[], cards:{}, deckCount, glossary:[]}
-function addToDB(dataWrapper) {
-	//add cards
-	const CARDS = Object.values(dataWrapper.cards);
-	for(var c in CARDS) {
-		manager.addCard(CARDS[c]);
-	}
-	//console.log(`Adding ${dataWrapper.decks.length} decks`);
-	//add decks
-	//for(var d in dataWrapper.decks) {
-	//	var tempDeck = dataWrapper.decks[d];
-	//	manager.addDeck(tempDeck);
-	//}
-	manager.addGlossary(dataWrapper.glossary);
-}
-
-function addPage(page, pageSize=10) {
-	addToDB(parser.getDeckData(page, pageSize));	
-}
-
-function addPageRange(start, end, pageSize=10) {
-	console.log("adding pages");
-	console.log([start,end, pageSize]);
-	for(var page = start; page <= end; page++) {
-		var dataPromise = parser.getDeckData(page, pageSize);
-		dataPromise.then((data) => {
-			console.log("cards: " + Object.values(data.cards).length);
-			console.log("decks: " + data.decks.length);
-			addToDB(data);
-		});
-	}
-}
-
-const DECKS_PER_PAGE = 25;
-
-// ------------------------
-
-//update given a range
-app.get('/updateDBRange', function(req, res, next) {
-	const START = parseInt(req.query.startPage);
-	const END = parseInt(req.query.endPage);
-	const PAGE_SIZE = DECKS_PER_PAGE;
-	addPageRange(START, END, PAGE_SIZE);
-	res.render('index', {title:'Express'});
-});
-
 //API Endpoint
 	//Returns a list of *all* the cards stored in the database
 app.get('/API/cards', function(req, res, next) {
 	manager.getCards().then((cards) => {
 		res.send({cardList:cards});
+	});
+});
+
+//API Endpoint
+	//Returns a list of *all* the decks stored in the database
+app.get('/API/decks', function(req, res, next) {
+	manager.getDecks().then((decks) => {
+		res.send({deckList:decks});
 	});
 });
 

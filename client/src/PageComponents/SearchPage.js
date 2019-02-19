@@ -17,7 +17,7 @@ class SearchPage extends Component {
 		this.setCards = this.setCards.bind(this);
 	}
 	componentDidMount() {
-		console.log("fetching data");
+		console.log("fetching cards");
 		fetch('/API/cards')
 			.then(res => res.json())
 			.then((cards) => {

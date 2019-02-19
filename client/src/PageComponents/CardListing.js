@@ -41,7 +41,7 @@ CardListing.defaultProps = {
 class ListCard extends CardListing {
 	render() {
 		return(
-			<Link className="cardListing listCard" to={{pathname:"/cardDetails",state:{data:this.props.data}}}>
+			<Link className="cardListing listCard" to={{pathname:"/cards/cardDetails",state:{data:this.props.data}}}>
 				<h1 className="cardTitle">{this.props.data.card_title}</h1>
 				<h1 className="cardHouse">{this.props.data.house}</h1>
 				<h1 className="cardType">{this.props.data.card_type}</h1>
@@ -54,7 +54,7 @@ class ListCard extends CardListing {
 class GridCard extends CardListing {
 	render() {
 		return(
-			<Link className="cardListing gridCard" to={{pathname:"/cardDetails",state:{data:this.props.data}}}>
+			<Link className="cardListing gridCard" to={{pathname:"/cards/cardDetails",state:{data:this.props.data}}}>
 				<div class="imgContainer">
 					<img src={this.props.data.front_image} alt="Card image" />
 				</div>
