@@ -18,9 +18,6 @@ class CardListing extends Component {
 			//card_number - number
 			//expansion - number
 			//is_maverick - boolean
-	constructor(props) {
-		super(props);
-	}
 }
 CardListing.defaultProps = {
 	data: {

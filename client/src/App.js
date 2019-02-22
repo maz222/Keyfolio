@@ -8,6 +8,7 @@ import './AppStyle.css';
 import SearchPage from './PageComponents/SearchPage.js';
 import CardPage from './PageComponents/CardPage.js';
 import DeckPage from './PageComponents/DeckPage.js';
+import LandingPage from './PageComponents/LandingPage.js'
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
           <div id="content">
             <Switch>
               <div style={{width:"100%",height:"100%"}}>
+                  <Route exact path ='/' component={LandingPage} />
                   <Route exact path='/cards' component={SearchPage} />
                   <Route path='/cards/cardDetails' component={CardPage} />
                   <Route path='/decks' component={DeckPage} />

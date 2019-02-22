@@ -9,6 +9,22 @@ const PASS = "keysmith1";
 const manager = new dbManager(USER, PASS);
 
 //API Endpoint
+	//Returns the number of cards in the database
+app.get('/API/cardCount', function(req, res, next) {
+	manager.getCardCount().then((count) => {
+		res.send({cardCount:count});
+	});
+});
+
+//API Enpoint
+	//Returns the number of decks in the database
+app.get('/API/deckCount', function(req, res, next) {
+	manager.getDeckCount().then((count) => {
+		res.send({deckCount:count});
+	});
+});
+
+//API Endpoint
 	//Returns a list of *all* the cards stored in the database
 app.get('/API/cards', function(req, res, next) {
 	manager.getCards().then((cards) => {
@@ -29,7 +45,8 @@ app.get('/API/decks', function(req, res, next) {
 	//*Input* : one of ["houses","traits","types","rarities"]
 app.get('/API/glossary', function(req,res,next) {
 	var category = req.query.category;
-	category = category.substring(1,category.length-1);
+	//category = category.substring(1,category.length-1);
+	console.log(category);
 	manager.getGlossaryByCategory(category).then((terms) => {
 		console.log(terms);
 		res.send({terms:terms});
@@ -45,7 +62,7 @@ app.get('/API/glossary', function(req,res,next) {
 		//Types   : an array of strings representing card types
 	//If any of the above inputs are not defined (not passed), search assumes any of the possible values (from the glossary) are valid
 app.get('/API/searchCards', function(req,res,next) {
-	console.log(req.query);
+	//console.log(req.query);
 	var title = req.query.Title;
 	var houses = req.query.Houses == undefined ? [] : req.query.Houses.split(',');
 	var types = req.query.Types == undefined ? [] : req.query.Types.split(',');
@@ -54,6 +71,13 @@ app.get('/API/searchCards', function(req,res,next) {
 	cardResults.then((cards) => {
 		res.send({cards:cards});
 	});
+});
+
+app.get('/API/searchDecks', function(req,res,next) {
+	var name = req.query.Name;
+	var houses = req.query.Houses == undefined ? [] : req.query.Houses.split(',');
+
+	res.send({decks:[]});
 });
 
 app.get('/searchFilters', function(req,res,next) {

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import './SortContainerStyle.css';
+
 //class for storing and displaying cards, decks, etc
 //displays a sortable *list* of items
 //props:
@@ -22,7 +24,7 @@ class ListingContainer extends Component {
 	}
 	componentWillReceiveProps(props) {
 		this.setState((prevState) => {
-			if(prevState.sortKey == null || prevState.sortKey == undefined) {
+			if(prevState.sortKey === null || prevState.sortKey === undefined) {
 				return({itemsData:props.itemsData});
 			}
 			return({itemsData:this.sortItems(props.itemsData)});
@@ -34,7 +36,7 @@ class ListingContainer extends Component {
 		itemsCopy.sort((a,b) => {
 			if(a[sortKey] < b[sortKey]) 
 				return -1;
-			else if(a[sortKey] == b[sortKey]) 
+			else if(a[sortKey] === b[sortKey]) 
 				return 0;
 			else 
 				return 1;
@@ -45,16 +47,18 @@ class ListingContainer extends Component {
 	setSortKey(e) {
 		var sortMethod = e.target.value;
 		this.setState((prevState, props) => {
-			var newItems = this.sortItems(prevState.itemsData, sortMethod);
+			var newItems = this.sortItems(prevState.itemsData, sortMethod.toLowerCase());
 			return({itemsData:newItems, sortKey:sortMethod});
 		});
 	}
 	//returns a set of buttons the user can use to sort the items with
 	getSortButtons() {
+		const activeSortStyle = {color:"white"};
+
 		var buttons = this.props.sortKeys.map((option) => {return(
 			<span>
-				<input type="radio" name="sort" id={option} value={option} checked={option == this.state.sortKey} onChange={this.setSortKey}/>
-				<label for={option}>{option}</label>
+				<input type="radio" name="sort" id={option} value={option} checked={option === this.state.sortKey} onChange={this.setSortKey}/>
+				<label for={option} style={option == this.state.sortKey ? activeSortStyle : null}>{option}</label>
 			</span>);
 		});
 		return(

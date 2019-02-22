@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import SearchListings from './SearchListings.js';
 import SearchFilters from './SearchFilters.js';
 
-import './SearchPageStyle.css';
+import './PageStyling.css';
 
 class SearchPage extends Component {
 	constructor(props) {
@@ -35,10 +35,10 @@ class SearchPage extends Component {
 	render() {
 		return(
 			<div id="searchPage" className="page">
-				<div id="sideBar">
+				<div className="sideBar">
 					<SearchFilters setCards={this.setCards} houses={this.state.houses} rarities={this.state.rarities} types={this.state.types}/>
 				</div>
-				<div id="mainContent">
+				<div className="mainContent">
 					<SearchListings cards={this.state.results}/>
 				</div>
 			</div>

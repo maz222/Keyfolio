@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import DeckListing from './DeckListing.js';
 import ListingContainer from './ListingContainer.js';
+import DeckFilters from './DeckFilters.js';
+
+import './PageStyling.css';
 
 class DeckPage extends Component {
 	constructor(props) {
@@ -18,12 +21,11 @@ class DeckPage extends Component {
 			.then((decks) => {
 				this.setDecks(decks.deckList);
 			});
-		//fetch('/API/glossary?category=houses')
-		//	.then(res => res.json())
-		//	.then((houses) => {
-		//		console.log(houses);
-		//		this.setState({houses:houses.terms});
-		//	});
+		fetch('/searchFilters')
+			.then(res => res.json())
+			.then((filters) => {
+				this.setState({houses:filters.houses});
+			});
 	}
 	setDecks(decks) {
 		console.log(decks);
@@ -33,6 +35,7 @@ class DeckPage extends Component {
 		return(
 			<div id="deckPage" className="page">
 				<div className="sideBar">
+					<DeckFilters setDecks={this.setDecks} houses={this.state.houses} />
 				</div>
 				<div className="mainContent">
 					<ListingContainer itemsData={this.state.results} sortKeys={["Name","Houses"]} itemPrototype={DeckListing} />
@@ -43,7 +46,7 @@ class DeckPage extends Component {
 }
 DeckPage.defaultProps = {
 	results: [],
-	houses: []
+	houses: ["Dis"]
 }
 
 export default DeckPage;
