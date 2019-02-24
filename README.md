@@ -11,7 +11,7 @@ Features a basic API for the database:
    - Returns a list of all the cards stored in the database
    
   **/API/glossary:**  
-    -Returns a list of game terms based on a given category  
+    - Returns a list of game terms based on a given category  
     *-Input:*
     
       - category: A string from ("houses","traits","types","rarities")  
