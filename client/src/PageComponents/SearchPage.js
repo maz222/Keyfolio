@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
-import SearchListings from './SearchListings.js';
 import SearchFilters from './SearchFilters.js';
+
+import CardListingsContainer from './CardListingsContainer.js';
 
 import './PageStyling.css';
 
@@ -39,7 +40,7 @@ class SearchPage extends Component {
 					<SearchFilters setCards={this.setCards} houses={this.state.houses} rarities={this.state.rarities} types={this.state.types}/>
 				</div>
 				<div className="mainContent">
-					<SearchListings cards={this.state.results}/>
+					<CardListingsContainer itemsData={this.state.results} />
 				</div>
 			</div>
 		);

@@ -28,7 +28,7 @@ class DeckPage extends Component {
 			});
 	}
 	setDecks(decks) {
-		console.log(decks);
+		console.log("decks: " + decks);
 		this.setState({results:decks.slice(0,10)});
 	}
 	render() {
@@ -38,7 +38,7 @@ class DeckPage extends Component {
 					<DeckFilters setDecks={this.setDecks} houses={this.state.houses} />
 				</div>
 				<div className="mainContent">
-					<ListingContainer itemsData={this.state.results} sortKeys={["Name","Houses"]} itemPrototype={DeckListing} />
+					<ListingContainer itemsData={this.state.results} itemPrototype={DeckListing} />
 				</div>
 			</div>
 		);

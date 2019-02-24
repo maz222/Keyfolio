@@ -12,12 +12,13 @@ import './SortContainerStyle.css';
 //state:
 	//itemsData: the data for the items to be stored / displayed
 	//sortKey: the active sort key
+	//ascendingSort: whether items are sorted ascendingly or not
 class ListingContainer extends Component {
 	constructor(props) {
 		super(props);
 		var defaultSort = props.sortKeys.length > 0 ? props.sortKeys[0] : null;
-		var sortedItems = defaultSort == null ? props.items : this.sortItems(props.itemsData, defaultSort);
-		this.state = {itemsData:sortedItems, sortKey:defaultSort};
+		var sortedItems = defaultSort == null ? props.itemsData : this.sortItems(props.itemsData, defaultSort);
+		this.state = {itemsData:sortedItems, sortKey:defaultSort, ascendingSort:true};
 
 		this.getSortButtons = this.getSortButtons.bind(this);
 		this.setSortKey = this.setSortKey.bind(this);
@@ -25,9 +26,12 @@ class ListingContainer extends Component {
 	componentWillReceiveProps(props) {
 		this.setState((prevState) => {
 			if(prevState.sortKey === null || prevState.sortKey === undefined) {
+				if(props.sortKeys != undefined) {
+					return({itemsData:this.sortItems(props.itemsData, props.sortKeys[0]), sortKey:props.sortKeys[0]});
+				}
 				return({itemsData:props.itemsData});
 			}
-			return({itemsData:this.sortItems(props.itemsData)});
+			return({itemsData:this.sortItems(props.itemsData, prevState.sortKey)});
 		})
 	}
 	//creates and returns a sorted copy of a given set of item data
@@ -47,22 +51,31 @@ class ListingContainer extends Component {
 	setSortKey(e) {
 		var sortMethod = e.target.value;
 		this.setState((prevState, props) => {
+			//if user clicks a currently selected sort option, toggle the ascending / descending order and reverse the item array
+			if(prevState.sortKey == sortMethod) {
+				var items = prevState.itemsData.slice();
+				items.reverse();
+				return({itemsData:items, ascendingSort:!prevState.ascendingSort});
+			}
+			//if user clicks a currently unselected sort option, sort the results
 			var newItems = this.sortItems(prevState.itemsData, sortMethod.toLowerCase());
-			return({itemsData:newItems, sortKey:sortMethod});
+			return({itemsData:newItems, sortKey:sortMethod, ascendingSort:true});
 		});
 	}
 	//returns a set of buttons the user can use to sort the items with
 	getSortButtons() {
 		const activeSortStyle = {color:"white"};
+		const arrow = this.state.ascendingSort ? <i class="fas fa-arrow-up"></i> : <i class="fas fa-arrow-down"></i>;
 
-		var buttons = this.props.sortKeys.map((option) => {return(
-			<span>
-				<input type="radio" name="sort" id={option} value={option} checked={option === this.state.sortKey} onChange={this.setSortKey}/>
-				<label for={option} style={option == this.state.sortKey ? activeSortStyle : null}>{option}</label>
-			</span>);
+		var buttons = this.props.sortKeys.map((option) => {
+			return(
+				<span>
+					<input type="radio" name="sort" id={option} value={option} checked={option === this.state.sortKey} onClick={this.setSortKey}/>
+					<label for={option} style={option === this.state.sortKey ? activeSortStyle : null}>{option}{this.state.sortKey === option ? arrow : null}</label>
+				</span>);
 		});
 		return(
-			<form className="sortContainer">
+			<form className="optionsContainer sortOptions">
 				{buttons}
 			</form>
 		);
@@ -95,7 +108,7 @@ class ListingContainer extends Component {
 ListingContainer.propTypes = {
 	itemsData: PropTypes.array,
 	sortKeys: PropTypes.array,
-	itemPrototype: PropTypes.func.isRequired
+	itemPrototype: PropTypes.func
 
 }
 ListingContainer.defaultProps = {
