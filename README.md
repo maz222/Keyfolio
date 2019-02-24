@@ -8,7 +8,7 @@ Features a basic API for the database:
     - Returns a list of all the cards stored in the database  
     
   **/API/decks:**
-   - Returns a list of all the cards stored in the database
+    - Returns a list of all the cards stored in the database
    
   **/API/glossary:**  
     - Returns a list of game terms based on a given category  
@@ -28,9 +28,9 @@ Features a basic API for the database:
     -If any of the above inputs are not passed, the search assumes any of the possible values are valid  
     
   **/API/cardCount:**
-   - Returns the number of cards in the database
+    - Returns the number of cards in the database
    
   **/API/deckCount:**
-   - Returns the number of decks in the database
+    - Returns the number of decks in the database
    
      
