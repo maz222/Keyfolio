@@ -7,16 +7,16 @@ Features a basic API for the database:
   **/API/cards:**  
     - Returns a list of all the cards stored in the database  
     
-  **/API/decks:**
+  **/API/decks:**  
     - Returns a list of all the cards stored in the database
    
-  **/API/glossary:**  
+  **/API/glossary:**    
     - Returns a list of game terms based on a given category  
     *-Input:*
     
       - category: A string from ("houses","traits","types","rarities")  
       
-  **/API/searchCards:**  
+  **/API/searchCards:**    
     - Returns a list of cards matching a set of given parameters  
     *- Input:*
     
@@ -27,10 +27,10 @@ Features a basic API for the database:
       
     -If any of the above inputs are not passed, the search assumes any of the possible values are valid  
     
-  **/API/cardCount:**
+  **/API/cardCount:**  
     - Returns the number of cards in the database
    
-  **/API/deckCount:**
+  **/API/deckCount:**  
     - Returns the number of decks in the database
    
      
