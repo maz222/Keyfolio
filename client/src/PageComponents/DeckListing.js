@@ -7,7 +7,7 @@ class DeckListing extends Component {
 		super(props);
 		this.state = {displayDetails: false};
 		this.toggleDetails = this.toggleDetails.bind(this);
-		//console.log(props);
+		console.log(props);
 	}
 	toggleDetails() {
 		this.setState((prevState) => {
@@ -26,10 +26,10 @@ class DeckListing extends Component {
 						{this.props.data.cards.map((card) => {
 							return(
 								<div className="card">
-									<h2 className="cardName">{card.name}</h2>
-									<h2 className="cardType">{card.type}</h2> 
-									<h2 className="cardHouse">{card.house}</h2>
-									<h2 className="cardRarity">{card.rarity}</h2>
+									<p className="cardName">{card.card_title}</p>
+									<p className="cardType">{card.card_type}</p> 
+									<p className="cardHouse">{card.house}</p>
+									<p className="cardRarity">{card.rarity}</p>
 								</div>
 							);
 						})}

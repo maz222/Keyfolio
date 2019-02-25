@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import ListingContainer from './ListingContainer.js';
 import {ListCard, GridCard} from './CardListing.js';
@@ -69,9 +69,9 @@ class CardListingsContainer extends ListingContainer {
 	getDisplayButtons() {
 		return(
 			<form className="optionsContainer displayOptions">
-					<input type="radio" id="gridInput" name="display" value="Grid" checked={this.state.display == "Grid"} onChange={this.setGridDisplay}/>
+					<input type="radio" id="gridInput" name="display" value="Grid" checked={this.state.display === "Grid"} onChange={this.setGridDisplay}/>
 					<label for="gridInput"><i className="fas fa-th"></i></label>
-					<input type="radio" id="listInput" name="display" value="List" checked={this.state.display == "List"} onChange={this.setGridDisplay}/>
+					<input type="radio" id="listInput" name="display" value="List" checked={this.state.display === "List"} onChange={this.setGridDisplay}/>
 					<label for="listInput"><i className="fas fa-list"></i></label>
 				</form>
 		)
@@ -89,7 +89,7 @@ class CardListingsContainer extends ListingContainer {
 				styling = emptyStyle;
 				break;
 		}
-		if(this.state.itemsData.length == 0) {
+		if(this.state.itemsData.length === 0) {
 			styling = emptyStyle;
 		}
 		return(

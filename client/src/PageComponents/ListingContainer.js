@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import ListingPageIndex from './ListingPageIndex.js';
+
 import './SortContainerStyle.css';
 
 //class for storing and displaying cards, decks, etc
@@ -26,7 +28,7 @@ class ListingContainer extends Component {
 	componentWillReceiveProps(props) {
 		this.setState((prevState) => {
 			if(prevState.sortKey === null || prevState.sortKey === undefined) {
-				if(props.sortKeys != undefined) {
+				if(props.sortKeys !== undefined) {
 					return({itemsData:this.sortItems(props.itemsData, props.sortKeys[0]), sortKey:props.sortKeys[0]});
 				}
 				return({itemsData:props.itemsData});
@@ -52,7 +54,7 @@ class ListingContainer extends Component {
 		var sortMethod = e.target.value;
 		this.setState((prevState, props) => {
 			//if user clicks a currently selected sort option, toggle the ascending / descending order and reverse the item array
-			if(prevState.sortKey == sortMethod) {
+			if(prevState.sortKey === sortMethod) {
 				var items = prevState.itemsData.slice();
 				items.reverse();
 				return({itemsData:items, ascendingSort:!prevState.ascendingSort});
@@ -98,6 +100,7 @@ class ListingContainer extends Component {
 						})
 					}
 				</div>
+				<ListingPageIndex end={100} callback={(i)=>{console.log(i)}} />
 			</div>
 		);
 	}
@@ -109,7 +112,6 @@ ListingContainer.propTypes = {
 	itemsData: PropTypes.array,
 	sortKeys: PropTypes.array,
 	itemPrototype: PropTypes.func
-
 }
 ListingContainer.defaultProps = {
 	itemsData: [],

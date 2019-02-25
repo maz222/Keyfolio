@@ -1,0 +1,27 @@
+.pageIndex {
+	background-color: #5E5F68;
+	border-radius: 5px;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.pageIndex i, .pageIndex h4 {
+	flex-grow: 1;
+	font-size: 1.5em;
+}
+
+.pageIndex i:hover, .pageIndex h4:hover {
+	color: black;
+	cursor: pointer;
+}
+
+.activePage {
+	color: white !important;
+	font-weight: bold;
+}
+
+
+	
