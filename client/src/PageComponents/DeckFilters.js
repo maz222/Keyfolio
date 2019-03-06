@@ -1,21 +1,47 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {Redirect} from 'react-router-dom'
+
+import formatQuery from './UtilityFunctions.js';
 
 import CollapseFilter from './CollapseFilter.js';
 
 import './SearchFilterStyle.css';
 
 //props
-	//houses : array of house names (strings)
-	//setDecks: a callback function to update the deck listings
+	//qData: parsed info from the URL query string {name:"",houses:""}
 
 //state
-	//houses: array of *valid* houses (all houses by default)
+	//houseList: array of *valid* houses (all houses by default)
+
+//from query string 
+	//PageNumber
+	//PageCount
+	//DeckName
+	//Houses (array represented as a comma separated string eg:"dis,untamed") (list of *selected* houses)
+
+const filtersAPIURL = '/searchFilters';
 
 class DeckFilters extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {houses:props.houses};
+		this.state = {houseList:props.houses, parsedData:undefined};
 		this.search = this.search.bind(this);
+	}
+	componentDidMount() {
+		fetch(filtersAPIURL)
+			.then(res => res.json())
+			.then((filters) => {
+				this.setState({houseList:filters.houses});
+			});		
+	}
+	componentWillReceiveProps(props) {
+		this.setState({houseList:props.houses, parsedData:undefined});
+		fetch(filtersAPIURL)
+			.then(res => res.json())
+			.then((filters) => {
+				this.setState({houseList:filters.houses});
+			});		
 	}
 	search(e){
 		function parseForm(formData) {
@@ -41,26 +67,28 @@ class DeckFilters extends Component {
 		e.preventDefault();
 		const data = new FormData(e.target);
 		const parsedData = parseForm(data);
-		const url = '/API/searchDecks' + jsonToQueryString(parsedData);
-		console.log(url);
-		fetch(url)
-			.then(res => res.json())
-			.then(decks => { 
-				console.log(decks);
-				this.props.setDecks(decks.decks);
-			});
+		this.setState({parsedData: parsedData});
 	}
 	render() {
+		if(this.state.parsedData !== undefined) {
+			const queryData = Object.assign({}, this.props.qData, this.state.parsedData);
+			return (<Redirect to={this.props.qBase + formatQuery(queryData)} />);
+		}
+		const selectedHouses = this.props.qData.Houses !== undefined ? this.props.qData.Houses.split(',') : [];
 		return (
 			<form className="searchFilters" onSubmit={this.search}>
 				<div className="searchContainer">
-					<input type="text" placeholder="Deck Name" name="Name"/>
-					<button type="submit"><i class="fas fa-search"></i></button>
+					<input type="text" placeholder="Deck Name" name="Name" value={this.props.qData.DeckName}/>
+					<button type="submit"><i className="fas fa-search"></i></button>
 				</div>
-				<CollapseFilter title={"Houses"} options={this.props.houses} selected={this.state.houses}/>
+				<CollapseFilter title={"Houses"} options={this.state.houseList} selected={selectedHouses}/>
 			</form>
 		);
 	}
+}
+DeckFilters.propTypes = {
+	qData: PropTypes.object.isRequired,
+	qBase: PropTypes.string.isRequired
 }
 DeckFilters.defaultProps = {
 	houses: []

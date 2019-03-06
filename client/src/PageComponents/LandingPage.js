@@ -8,13 +8,13 @@ class LandingPage extends Component {
 	}
 	componentDidMount() {
 		console.log("fetching card count");
-		fetch('/API/cardCount')
+		fetch('/API/get/cardCount')
 			.then(res => res.json())
 			.then((count) => {
 				this.setState({cardCount:count.cardCount});
 			});
 		console.log("fetching deck count");
-		fetch('/API/deckCount')
+		fetch('/API/get/deckCount')
 			.then(res => res.json())
 			.then((count) => {
 				this.setState({deckCount:count.deckCount});

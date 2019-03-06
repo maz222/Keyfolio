@@ -10,6 +10,13 @@ import CardPage from './PageComponents/CardPage.js';
 import DeckPage from './PageComponents/DeckPage.js';
 import LandingPage from './PageComponents/LandingPage.js'
 
+const routeURLs = {
+  home: '/',
+  cardSearch: '/cards',
+  cardDetails: '/cards/cardDetails',
+  deckSearch: '/decks'
+}
+
 class App extends Component {
   render() {
     const aLink = "activeLink";
@@ -27,10 +34,10 @@ class App extends Component {
           <div id="content">
             <Switch>
               <div style={{width:"100%",height:"100%"}}>
-                  <Route exact path ='/' component={LandingPage} />
-                  <Route exact path='/cards' component={SearchPage} />
-                  <Route path='/cards/cardDetails' component={CardPage} />
-                  <Route path='/decks' component={DeckPage} />
+                  <Route exact path={routeURLs.home} component={LandingPage} />
+                  <Route exact path={routeURLs.cardSearch} render={(routeProps) => <SearchPage {...routeProps } {...{qBase:routeURLs.cardSearch + "?"}}/>} />
+                  <Route path={routeURLs.cardDetails} component={(routeProps) => <CardPage {...routeProps} {...{qBase:routeURLs.cardDetails + "?"}}/>} />
+                  <Route path={routeURLs.deckSearch} component={(routeProps) => <DeckPage {...routeProps} {...{qBase:routeURLs.deckSearch + "?"}}/>} />
               </div>          
             </Switch>
           </div>

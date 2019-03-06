@@ -3,47 +3,25 @@ import React, {Component} from 'react';
 //props
 	//title: the title/category of the filter ("house","type",etc)
 	//options: the options the user can select from
+	//selected: list of selected options
 //state
-	//selected: a *set* of all currently selected options
+	//selected: a list of all currently selected options
 	//colapsed: whether the options are collapsed (visible) or not
 
 class CollapseFilter extends Component {
 	constructor(props) {
 		super(props);
-		var buttonStatuses = {};
-		for(var i in props.options) {
-			buttonStatuses[props.options[i]] = true;
-		}
-		this.state = {collapsed:false, selected:buttonStatuses};
+		//sets the initially selected buttons to either the given list (via props), or all buttons (by default)
+		var selectedButtons = props.selected.length === 0 || props.selected === undefined
+			? props.options : props.selected;
+		this.state = {collapsed:false, selected:selectedButtons};
 		this.getOptions = this.getOptions.bind(this);
 		this.toggleFilter = this.toggleFilter.bind(this);
 		this.selectAll = this.selectAll.bind(this);
 		this.toggleDropdown = this.toggleDropdown.bind(this);
 	}
 	selectAll() {
-		//iterate through all the options, and keep track of ones which aren't selected
-		var toSelect = [];
-		for(var i in this.props.options) {
-			var option = this.props.options[i];
-			if(!this.state.selected[option]) {
-				toSelect.push(option);
-			}
-		}
-		console.log(toSelect);
-		//if there are options to select, select all of them
-		if(toSelect.length > 0) {
-			this.setState((prevState,props) => {
-				for(var i in toSelect) {
-					prevState.selected[toSelect[i]] = true;
-				}
-				return({selected:prevState.selected});
-			});
-		}
-		//if all the options are already selected, unselect them
-		else {
-			this.setState({selected:{}});
-		}
-
+		this.setState({selected:this.props.options});
 	}
 	toggleDropdown() {
 		this.setState((prevState, props) => {
@@ -54,8 +32,12 @@ class CollapseFilter extends Component {
 		console.log(e.target.value);
 		var val = e.target.value;
 		this.setState((prevState,props) => {
-			prevState.selected[val] = !prevState.selected[val];
-			return({selected:prevState.selected});
+			const index = prevState.selected.indexOf(val);
+			if(index !== -1) {
+				return {selected:
+					prevState.selected.slice(0,index).concat(prevState.selected.slice(index+1,prevState.selected.length))};
+			}
+			return({selected:prevState.selected.concat([val])});
 		});
 	}
 	getOptions() {
@@ -64,7 +46,7 @@ class CollapseFilter extends Component {
 			return(
 				<span>
 					<input type="checkbox" className="filterOption" id={option} value={option} name={t.props.title} 
-						checked={t.state.selected[option]} onClick={t.toggleFilter} />
+						checked={t.state.selected.includes(option)} onClick={t.toggleFilter} />
 					<label for={option}>{option}</label>
 				</span>
 			);
@@ -83,6 +65,11 @@ class CollapseFilter extends Component {
 			</div>
 		);
 	}
+}
+CollapseFilter.defaultProps = {
+	title: "Default Title",
+	options: [],
+	selected: []
 }
 
 export default CollapseFilter;

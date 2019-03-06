@@ -5,11 +5,23 @@ import './DeckListingStyle.css';
 class DeckListing extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {displayDetails: false};
+		this.state = {displayDetails: false, cards:this.reduceCards(props.data.cards)};
 		this.toggleDetails = this.toggleDetails.bind(this);
-		console.log(props);
+	}
+	reduceCards(cards) {
+		var cardDict = {}
+		for(var c in cards) {
+			if(cards[c].card_title in cardDict) {
+				cardDict[cards[c].card_title] += 1;
+			}
+			else {
+				cardDict[cards[c].card_title] = 1;
+			}
+		}
+		return cardDict;
 	}
 	toggleDetails() {
+		console.log(this.state.cards);
 		this.setState((prevState) => {
 			return({displayDetails: !prevState.displayDetails});
 		});
@@ -23,13 +35,11 @@ class DeckListing extends Component {
 				</div>
 				{this.state.displayDetails ? 
 					<div className="deckDetails">
-						{this.props.data.cards.map((card) => {
+						{Object.keys(this.state.cards).map((card) => {
 							return(
 								<div className="card">
-									<p className="cardName">{card.card_title}</p>
-									<p className="cardType">{card.card_type}</p> 
-									<p className="cardHouse">{card.house}</p>
-									<p className="cardRarity">{card.rarity}</p>
+									<p className="cardName">{card}</p>
+									{this.state.cards[card] > 1 ? <p className="cardQuantity">{this.state.cards[card]}</p> : null}
 								</div>
 							);
 						})}

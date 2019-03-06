@@ -1,6 +1,10 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom'
+
+import formatQuery from './UtilityFunctions.js';
 
 import ListingContainer from './ListingContainer.js';
+import ListingPageIndex from './ListingPageIndex.js';
 import {ListCard, GridCard} from './CardListing.js';
 
 const listStyle = {
@@ -43,25 +47,7 @@ class CardListingsContainer extends ListingContainer {
 		this.setGridDisplay = this.setGridDisplay.bind(this);
 		this.getDisplayButtons = this.getDisplayButtons.bind(this);
 		this.state.display = "List";
-	}
-	sortItems(itemsData, sortKey) {
-		switch(sortKey) {
-			case "name":
-				return super.sortItems(itemsData,"card_title");
-			case "type":
-				return super.sortItems(itemsData,"card_type");
-			case "rarity":
-				const rarities = {"Common":0,"Uncommon":1,"Rare":2,"Special":3};
-				var cardsCopy = itemsData.slice();
-				cardsCopy.sort((a,b) => {
-					const aRarity = a.rarity in rarities ? rarities[a.rarity] : Number.MAX_VALUE;
-					const bRarity = b.rarity in rarities ? rarities[b.rarity] : Number.MAX_VALUE;
-					return aRarity - bRarity; 
-				});
-				return cardsCopy;
-			default:
-				return super.sortItems(itemsData,sortKey);
-		}
+		this.state.itemsData = props.itemsData;
 	}
 	setGridDisplay(e) {
 		this.setState({display: e.target.value});
@@ -77,6 +63,11 @@ class CardListingsContainer extends ListingContainer {
 		)
 	}
 	render() {
+		if(this.state.redirect) {
+			const queryData = Object.assign({}, this.props.qData, {Sort:this.state.sortKey, Ascending:this.state.ascendingSort});
+			return (<Redirect to={this.props.qBase + formatQuery(queryData)} />);
+		}
+		console.log(this.state);
 		var styling = null;
 		switch(this.state.display) {
 			case "List":
@@ -89,14 +80,22 @@ class CardListingsContainer extends ListingContainer {
 				styling = emptyStyle;
 				break;
 		}
-		if(this.state.itemsData.length === 0) {
-			styling = emptyStyle;
+		var currentPage = 1;
+		if(this.props.qData.PageNumber !== undefined) {
+			currentPage = this.props.qData.PageNumber;
 		}
+		var resultRangeStart = (this.props.qData.PageCount) * (currentPage - 1) + 1;
+		var resultRangeEnd = resultRangeStart + this.state.itemsData.length - 1;
+		var totalResults = this.props.totalItems;
+		resultRangeStart = totalResults === 0 ? 0 : resultRangeStart;
 		return(
 			<div className="listingContainer cardsContainer">
 				<div className="listingOptions">
 					{this.getSortButtons()}
 					{this.getDisplayButtons()}
+				</div>
+				<div className="resultsCount">
+					<p>Results <b>{resultRangeStart + " - " + resultRangeEnd}</b> of <b>{totalResults}</b></p>
 				</div>
 				<div className="items" id="listings" style={styling}>
 				{
@@ -112,12 +111,17 @@ class CardListingsContainer extends ListingContainer {
 					})
 				}
 				</div>
+				{
+					this.props.maxPageNumber > 1 ? 
+						<ListingPageIndex end={this.props.maxPageNumber} current={currentPage} qData={this.props.qData} qBase={this.props.qBase}/>
+						: undefined
+				}
 			</div>
 		)
 	}
 }
 CardListingsContainer.defaultProps = {
-	sortKeys: ["Name","House","Type","Rarity"],
+	sortKeys: ["Name","House","Type"],
 	listPrototype: ListCard,
 	gridPrototype: GridCard
 }
