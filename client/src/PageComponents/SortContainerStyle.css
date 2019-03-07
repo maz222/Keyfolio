@@ -1,7 +1,7 @@
 /* Listings Container (base class) */
 
 .listingOptions {
-	height: calc(10% - 20px;);
+	height: calc(10% - 20px);
 	display: flex;
 	flex-grow: 1;
 	margin-bottom: 20px;
