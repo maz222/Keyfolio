@@ -113,7 +113,7 @@ class CardListingsContainer extends ListingContainer {
 				</div>
 				{
 					this.props.maxPageNumber > 1 ? 
-						<ListingPageIndex end={this.props.maxPageNumber} current={currentPage} qData={this.props.qData} qBase={this.props.qBase}/>
+						<ListingPageIndex end={this.props.maxPageNumber} current={parseInt(currentPage)} qData={this.props.qData} qBase={this.props.qBase}/>
 						: undefined
 				}
 			</div>

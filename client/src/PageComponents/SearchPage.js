@@ -68,7 +68,7 @@ class SearchPage extends Component {
 					var maxPage = Math.floor(cardCount/props.pageCount);
 					if(cardCount%props.pageCount !== 0) {maxPage += 1;}
 					console.log(cards);
-					this.setState({results:cards.cardList, maxPageNumber:maxPage, totalItems:cardCount});
+					this.setState({results:cards.cardList, maxPageNumber:maxPage, totalItems:parseInt(cardCount)});
 				}
 			);
 	}
