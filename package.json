@@ -16,7 +16,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "cowsay": "^1.4.0",
-    "database-manager": "^1.0.3",
+    "database-manager": "1.0.3",
     "express": "^4.16.4",
     "keyforge-parser": "^1.0.1",
     "mongoose": "^5.4.11",

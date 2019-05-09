@@ -45,7 +45,7 @@ class SearchPage extends Component {
 		this.updateCards();
 	}
 	componentWillReceiveProps(props) {
-		this.updateCards();
+		this.updateCards(props);
 	}
 	updateCards(props=this.props) {
 		const queryInfo = queryString.parse(props.location.search);
